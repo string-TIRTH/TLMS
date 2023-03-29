@@ -1,0 +1,40 @@
+{% extends 'libNavBar.html' %}
+{% load static %}
+{% block title %} All Students List {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center"><u>Students List</u></h1>
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr class="text-center">
+                <th>Sr.No</th>
+                <th>Name</th>
+                <th>ID</th>
+                <th>College ID</th>
+                <th>Email</th>
+                <th>Mobile Number</th>
+                <th>Department</th>
+                <th>Semester</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr class="text-center">
+                <td>{{forloop.counter}}.</td>
+                <td>{{student.user.get_full_name}}</td>
+                <td>{{student.user.id}}</td>
+                <td>{{student.user.username}}</td>
+                <td>{{student.user.email}}</td>
+                <td>{{student.mobile}}</td>
+                <td>{{student.dept}}</td>
+                <td>{{student.sem}}</td>
+                <td><img src="{{student.image.url}}" alt="" width="50%" height="50%"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

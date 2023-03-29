@@ -1,0 +1,46 @@
+{% extends 'stdNavBar.html' %}
+{% load static %}
+{% block title %} All Students List {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center"><u>Due Books</u></h1>
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr class="text-center">
+                <th>Sr.No</th>
+                <th>Issue ID</th>
+                <th>Book Name</th>
+                <th>Issued Date</th>
+                <th>Due Date</th>
+                <th>Fine</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in details %}
+            <tr class="text-center">
+                <td>{{forloop.counter}}.</td>
+                <td>{{i.0}}</td>
+                <td>{{i.1}}</td>
+                <td>{{i.2}}</td>
+                <td>{{i.3}}</td>
+                <td>₹ {{i.4}}/-</td>
+                <td>
+                    {% if i.5 == 1%}
+                    Not Returned(No Due)
+                    {% elif i.5 == 2%}
+                    Not Returned(Over Due)
+                    {% elif i.5 == 3%}
+                    Returned        
+                    {% endif %}
+                    
+                    {% comment %} {{i.7}} {% endcomment %}
+                </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

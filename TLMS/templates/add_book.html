@@ -1,0 +1,72 @@
+
+{% extends 'admin_navbar.html' %}
+{% load static %}
+{% block title %} Library Management System {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form method="POST"> {% csrf_token %}
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Book Name</i></label>
+            <input type="text" class="form-control mt-2" name="name" placeholder="Enter Book Name" required>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Author Name</i></label>
+            <input type="text" class="form-control mt-2" name="author" placeholder="Enter Author Name" required>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Category</i></label>
+            <input type="text" class="form-control mt-2" name="category" placeholder="Enter Category" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Language</i></label>
+            <input type="text" class="form-control mt-2" name="lang" placeholder="Enter Language" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Description</i></label>
+            <input type="text" class="form-control mt-2" name="descp" placeholder="Enter Language" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Edition</i></label>
+            <input type="text" class="form-control mt-2" name="edition" placeholder="Enter Edition" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Quantity</i></label>
+            <input type="number" class="form-control mt-2" name="quantity" placeholder="Enter Quantity" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label><i style="font-weight: bold;">Thumbnail</i></label>
+            <input type="file" class="form-control mt-2" name="image" required>
+        </div>
+    </div>
+   
+    <button type="submit" class="btn btn-outline-primary mt-4">Add Book</button>
+</div>
+</form>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Book is added successfully.")
+    document.location = "/view_books"
+    {% endif %}
+</script>
+{% endblock %}

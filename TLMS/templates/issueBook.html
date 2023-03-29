@@ -1,0 +1,36 @@
+{% extends 'libNavBar.html' %}
+{% load static %}
+{% block title %} Issue Book {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <form method="POST"> {% csrf_token %}
+        <br>
+        <h1 class="text-center" style=" background-color : #ECF2FF">Issue Book</h1>
+        {% for i in form %}
+        <div class="form-group">
+            <br>
+          <label class="control-label col-xs-4">{{ i.label_tag }}</label>
+          <div class="col-xs-8 mt-2">
+          {{ i }}
+           </div>
+        </div>
+        {% endfor %}
+    <button type="submit" class="btn btn-outline-primary mt-4">Issue Book</button>
+</div>
+</form>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert == 1%}
+    alert("Book Successfully Issued.");
+    {% elif alert == 2%}
+    alert("Maximum limit Reached. Return book to issue")
+    {% elif alert == 3%}
+    alert("Sorry Book is not available")
+    document.location = "/librarian/issueBook"
+    {% endif %}
+</script>
+{% endblock %}
+

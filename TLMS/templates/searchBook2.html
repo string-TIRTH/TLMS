@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Book Search Page</title>
+	<style>
+		/* Add your custom CSS styles here */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+			border-radius: 5px;
+			text-align: center;
+		}
+		.form-group {
+			margin: 20px 0;
+		}
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+			font-size: 16px;
+		}
+		input[type=text] {
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+			width: 80%;
+			margin-right: 10px;
+			background-color: #f2f2f2;
+			color: #333;
+			font-size: 16px;
+			font-weight: bold;
+			letter-spacing: 1px;
+		}
+		button[type=submit] {
+			padding: 10px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 3px;
+			box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+		}
+		button[type=submit]:hover {
+			background-color: #3e8e41;
+			transform: scale(1.05);
+		}
+		table {
+			width: 100%;
+			margin-top: 20px;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 10px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #4CAF50;
+			color: #fff;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-size: 16px;
+			font-weight: bold;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+		tr:hover {
+			background-color: #f5f5f5;
+			transition: all 0.2s ease-in-out;
+		}
+		td {
+			font-size: 16px;
+			color: #333;
+			font-weight: 500;
+			letter-spacing: 1px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		td:first-child {
+			padding-left: 15px;
+		}
+		td:last-child {
+			padding-right: 15px;
+		}
+		.book-image {
+			max-width: 100px;
+			max-height: 100px;
+			object-fit: cover;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Library Book Search</h1>
+		<form method="get">
+			<div class="form-group">
+				<label for="search">Search by Title, Author, or ISBN:</label>
+				<input type="text" id="search" name="search" placeholder="Enter a keyword">
+				<button type="submit">Search</button>
+			</div>
+		</form>
+		{% if books %}
+			<table>
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Quantity</th>
+						<th>Description</th>
+						<th>Availability</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for book in books %}
+						<tr>
+							<td><img class="book-image" src="{{ book.image.url }}" alt="{{ book.title }}"></td>
+							<td>{{ book.title }}</td>
+							<td>{{ book.author }}</td>
+							<td>{{ book.isbn }}</td>
+							<td>{{ book.quantity }}</td>
+							{% if books.quantity > 0 %}
+                            <td> Availabe </td>
+							
+							{% else %}
+                            <td> Not Availabe </td>
+                            {% endif%}
+							
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>No books found.</p>
+		{% endif %}
+	</div>
+</body>
+</html>

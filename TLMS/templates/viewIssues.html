@@ -1,0 +1,60 @@
+{% extends 'LibNavBar.html' %}
+{% load static %}
+{% block title %} All Students List {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <br>
+        <h1 class="text-center" style=" background-color : #ECF2FF">Book Issues</h1>
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr class="text-center">
+                <th>Sr.No</th>
+                <th>Issue ID</th>
+                <th>Student</th>
+                <th>Student ID</th>
+                <th>Book Name</th>
+                <th>Issued Date</th>
+                <th>Due Date</th>
+                <th>Fine</th>
+                <th>Status</th>
+                <th>Reissue</th>
+                <th>Return</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in details %}
+            <tr class="text-center">
+                <td>{{forloop.counter}}.</td>
+                <td>{{i.0}}</td>
+                <td>{{i.1}}</td>
+                <td>{{i.2}}</td>
+                <td>{{i.3}}</td>
+                <td>{{i.4}}</td>
+                <td>{{i.5}}</td>
+                <td>₹ {{i.6}}</td>
+                <td>
+                    {% if i.7 == 1%}
+                    Not Returned(No Due)
+                    {% elif i.7 == 2%}
+                    Not Returned(Over Due)
+                    {% elif i.7 == 3%}
+                    Returned        
+                    {% endif %}
+                    
+                    {% comment %} {{i.7}} {% endcomment %}
+                </td>
+                {% if i.7 == 3%}
+                    <td><button type="button" class="btn btn-secondary" onclick="return confirm(Book is already Returned)">ReIssue</button></td>
+                    <td><button type="button" class="btn btn-secondary" onclick="return confirm('Book is already Returned')">ReIssue</button></td>
+                {% else%}
+                    <td><a href="reissueBook/{{i.0}}/" class="btn btn-success" onclick="return confirm('Are you sure you want to reissue this book?')">ReIssue</a></td>
+                    <td><a href="returnBook/{{i.0}}/" class="btn btn-warning" onclick="return confirm('Are you sure you want to return this book?')">Return</a></td>
+                {% endif %}  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

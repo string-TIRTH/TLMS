@@ -1,0 +1,40 @@
+{% extends 'stdNavBar.html' %}
+{% load static %}
+{% block title %} Library Management System {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <br>
+        <h1 class="text-center" style=" background-color : #ECF2FF">Search Book</h1>
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Book Title</i></label>
+            <input type="text" class="form-control mt-2" name="bookTitle" placeholder="Enter Book Title"> 
+            <input type="checkbox" name="bookTitleC" id="bookTitleC">
+        </div>   
+    
+    </div>
+        
+
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label><i style="font-weight: bold;">Author Name</i></label>
+            <input type="text" class="form-control mt-2" name="bookAuthor" placeholder="Enter Book Author">
+            <input type="checkbox" name="bookAuthorC" id="bookAuthorC">
+        </div>
+        <div class="form-group col-md-6">
+            <label><i style="font-weight: bold;">Book Category</i></label>
+            <input type="text" class="form-control mt-2" name="bookCategory" placeholder="Enter Book Category" >
+            <input type="checkbox" name="bookCategoryC" id="bookCategoryC">
+
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary mt-4">Search Book</button>
+</div>
+</form>
+
+{% endblock %}
+
