@@ -28,9 +28,12 @@ The Library Management System
 {% endblock %}
 {% block js %}
 <script>
-    {% if alert %}
-    alert("Invalid Username or Password.")
-    document.location = "/index"
+    {% if alert  == 1%}
+    alert("Verify your account")
+    document.location = "/student/emailVerify"
+    {% elif alert == 2%}
+    alert("Your Not Student")
+    document.location = "/student/index"
     {% endif %}
 </script>
 {% endblock %}

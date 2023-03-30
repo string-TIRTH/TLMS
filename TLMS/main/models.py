@@ -20,7 +20,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     sem = models.IntegerField()
     dept = models.CharField(max_length=35)
-    isActive = models.BooleanField(default=True)
+    isActive = models.BooleanField(default=False)
     mobile = models.IntegerField()
     admissionDate = models.DateField(null= False)
     dob = models.DateField(null = False)
@@ -64,4 +64,10 @@ class Request(models.Model):
     def __str__(self):
         return self.user
      
+class OTP(models.Model):
+    user= models.OneToOneField(Student, on_delete=models.CASCADE)
+    otp = models.IntegerField(default=0)
+    email = models.CharField(default="",max_length=255)
+    otpType = models.CharField(default="", max_length=50)
+    status = models.PositiveIntegerField(default=1)#1 active 2 used
     

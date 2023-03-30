@@ -11,7 +11,7 @@
     <div class="row mt-4">
         <div class="form-group col-md-12">
             <label><i style="font-weight: bold;">College ID</i></label>
-            <input type="text" class="form-control mt-2" name="collegeID" placeholder="Enter College ID" required>
+            <input type="text" class="form-control mt-2"  name="collegeID" placeholder="Enter College ID" required>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
     <div class="row mt-4">
         <div class="form-group col-md-6">
             <label><i style="font-weight: bold;">Email</i></label>
-            <input type="email" class="form-control mt-2" name="email" placeholder="Enter Email" required>
+            <input type="text" class="form-control mt-2" pattern=".+@ddu\.ac\.in" name="email" placeholder="Enter Email (Must use college email @ddu.ac.in)" required>
         </div>
         <div class="form-group col-md-6">
             <label><i style="font-weight: bold;">Mobile Number</i></label>
@@ -69,10 +69,28 @@
 {% endblock %}
 {% block js %}
 <script>
-    {% if alert %}
-    alert("Registration Successfull.")
+    {% comment %} var btn = document.getElementById('submit').addEventListener('click',function(e){
+        email = document.getElementById('email');
+        if(email.substring(-10).toUpperCase() != "@DDU.AC.IN"){
+            
+            email.innerHTML = ''
+            alert('You have to use only college email provided by college (@DDU.AC.IN)').show()
+            
+            document.location = "/student/register"
+        }
+        else
+        {
+        }
+    }); {% endcomment %}
+    {% if alert == 1 %}
+        alert("Registration Successfull. Account Verified");
+    {% elif alert == 2%}
+        alert("Invalid OTP");
+        document.location = "/student/enterOtp"
+    {% elif alert == 3%}
+        alert("Enter Valid College or email")    
+        document.location = "/student/register"    
     document.location = "/"
     {% endif %}
 </script>
 {% endblock %}
-

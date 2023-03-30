@@ -7,14 +7,47 @@ from main import models
 from main import models
 from datetime import date
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+def verifyEmail(request):
+    if request.method == "POST":
+        getotp = request.POST['OTP']
+        email = request.POST['email']
+        print("values =")
+        print(email)
+        print(getotp)
+        otp = OTP.objects.get(email = email)
+        print(otp.otp)
+        if(str(getotp)== str(otp.otp)):
+            # valid otp
+            std = Student.objects.get(id = otp.user.id)
+            std.isActive=True
+            std.save()
+            alert = 1
+        else:
+            alert = 3
+            return render(request,'enterOtp.html',{'alert':alert},{'email':email})    
+        return redirect('/student/index')
+    return render(request,'enterOtp.html')
 
-
+def send_email(request):
+    
+    subject ="Account Verification For Library Management System :"
+    message ="Your OTP is : 343434"
+    send_mail(subject, message,'librarymanagemnet.one@gmail', ['tirthprajapati26@gmail.com'])
+    return redirect('/student/')
 def studentRegister(request):
     if request.method == "POST":
         collegeID = request.POST['collegeID']
         fname = request.POST['fname']
         lname = request.POST['lname']
         email = request.POST['email']
+        id2 = email[0:10]
+        if(collegeID != id2):
+            alert = 3
+            return render(request, "register.html", {'alert':alert})
+
         phone = request.POST['phone']
         dept = request.POST['dept']
         dob = request.POST['dob']
@@ -23,16 +56,27 @@ def studentRegister(request):
         confirm_password = request.POST['confirm_password']
 
         if password != confirm_password:
-            passnotmatch = True
-            return render(request, "register.html", {'passnotmatch':passnotmatch})
+            alert = 4
+            return render(request, "register.html", {'alert':alert})
 
         user = User.objects.create_user(username = collegeID,email=email, password=password,first_name=fname, last_name=lname)
         print(user)
         student = Student.objects.create(user=user, admissionDate = '2003-12-01', mobile = phone,sem = 1,dob = '2003-12-01',dept =dept,image = image)
         user.save()
         student.save()
-        alert = True
-        return render(request, "register.html", {'alert':alert})
+        otp = random.randrange(100000,999999)
+        otpobj = OTP()
+        otpobj.user= student
+        otpobj.email= email
+        otpobj.otpType= 1
+        otpobj.otp =otp
+        otpobj.status =1
+        otpobj.save()
+        subject ="Account Verification For Library Management System :"
+        message ="Your OTP is : "+str(otp)
+        send_mail(subject, message,'librarymanagemnet.one@gmail', [email])
+         
+        return render(request,'enterOtp.html',{'email':email})
     return render(request, "register.html")
 
 
@@ -64,12 +108,16 @@ def index(request):
 
         if user is not None:
             login(request, user)
-            if request.user.is_superuser:
-                return HttpResponse("You are not a student!!")
+            if request.user.is_superuser or request.user.is_staff:
+                alert = 2
+                return render(request, "index.html", {'alert':alert})
             else:
+                # std = Student.objects.get(user_id=user.id)
+                # if(std.isActive == False):
+                #     return HttpResponse("Please Verify your email")
                 return redirect("/student/home")
         else:
-            alert = True
+            alert = 1
             return render(request, "index.html", {'alert':alert})
     return render(request, "index.html")
 @login_required(login_url = '/student/')

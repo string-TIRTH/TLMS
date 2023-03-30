@@ -1,0 +1,49 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block title %} Library Management System {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form method="POST" action = "/student/emailVerify" enctype="multipart/form-data"> {% csrf_token %}
+        <br>
+        <h1 class="text-center" style=" background-color : #ECF2FF">Email Verification</h1>
+    <div class="row mt-4">
+        <div class="form-group col-md-12" class ="text-center">
+            <label><i style="font-weight: bold;">OTP</i></label>
+            <input type="text" class="form-control mt-2" name="OTP" placeholder="Enter OTP" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-12" class ="text-center">
+   
+    <label><i style="font-weight: bold;">Email</i></label>
+            
+    <input type="text" class="form-control mt-2" placeholder="Enter Email"name="email" value = {{email}} >
+</div>
+</div>
+
+    <button type="submit"  class="btn btn-primary mt-4">Submit OTP</button>
+</div>
+</form>
+{% endblock %}
+{% block js %}
+<script>
+    {% comment %} var btn = document.getElementById('submit').addEventListener('click',function(e){
+        email = document.getElementById('email');
+        if(email.substring(-10).toUpperCase() != "@DDU.AC.IN"){
+            
+            email.innerHTML = ''
+            alert('You have to use only college email provided by college (@DDU.AC.IN)').show()
+            
+            document.location = "/student/register"
+        }
+        else
+        {
+        }
+    }); {% endcomment %}
+    {% if alert == 3 %}
+    alert("Invalid OTP Entered");
+    {% endif %}
+</script>
+{% endblock %}

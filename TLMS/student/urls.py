@@ -8,11 +8,11 @@ urlpatterns = [
    path('home',views.studentHome),
    path('logout',views.Logout),
    path('changePass',views.changePass),
-   # path('student/profile',views.studentProfile),
+   path('sendEmail',views.send_email),
    path('requestBook',views.studentReqBook),
    path('dueBooks',views.studentDueBooks),
    path('history',views.studentHistory),
    path('searchBook',views.studentSearchBook),
-   # path('student/books',views.studentBooks),
+   path('emailVerify',views.verifyEmail),
    # path('student/books/view',views.studentBookView),
 ]
