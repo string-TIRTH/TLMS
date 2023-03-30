@@ -140,7 +140,7 @@ def returnReissueBook(request):
         fine=0
         if d>14:
             day=d-14
-            fine=day*5
+            fine=day*10    
         books = list(Book.objects.filter(id=i.book_id,isActive =True))
         students = list(Student.objects.filter(id=i.student_id,isActive =True))
         print(books)

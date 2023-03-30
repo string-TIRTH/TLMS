@@ -26,6 +26,8 @@ class Student(models.Model):
     dob = models.DateField(null = False)
     image = models.ImageField(upload_to="", blank=True)
     limit = models.IntegerField(default = 4)
+    fine = models.FloatField(default=0)
+    
     def __str__(self):
         return str(self.user) + " ["+str(self.id)+']'+" ["+str(self.dept)+']' + " ["+str(self.sem)+']' + " ["+str(self.admissionDate)+']'+ " ["+str(self.dob)+']'
 class Librarian(models.Model):

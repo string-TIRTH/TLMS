@@ -24,7 +24,7 @@ def libLogin(request):
         if user is not None:
             login(request, user)
             if request.user.is_staff:
-                return redirect('/librarian/issueBook')
+                return redirect('/librarian/viewIssues')
             else:
                 return HttpResponse("You are not a Librarian!!")
         else:
@@ -93,10 +93,15 @@ def viewIssues(request):
         print(books)
         print(students)
         i=0
+        if(fine>0):
+            issuedBooks[j].status = 2
         for l in books:
             t=(issuedBooks[j].id,students[i].user.get_full_name,students[i].user,books[i].bookName,issuedBooks[j].issueDate,issuedBooks[j].dueDate,fine,issuedBooks[j].status)
+            students[i].fine = fine
+            students[i].save()
             i=i+1
             j=j+1
+            
             print(t)
             details.append(t)
     return render(request, "viewIssues.html", {'issuedBooks':issuedBooks, 'details':details})

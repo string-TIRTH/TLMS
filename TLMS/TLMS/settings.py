@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_crontab',
     'django.contrib.staticfiles',
     'main',
 ]
@@ -68,6 +69,45 @@ TEMPLATES = [
     },
 ]
 
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': '.logs/debug.log',
+#         },
+#     # 'disable_existing_loggers': True,
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+#     },
+# }
+
+# LOGGING = {
+#     'version':1,
+#     'loggers':{
+#         'django':{
+#             'handles':['file'],
+#             'level':'DEBUG'
+#         }
+#     },
+#     'handles':{
+#         'file':{
+#             'level':'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename':'.logs/debug.log',
+#         }
+#         },
+#     'formatters':{}
+# }
+CRONJOBS = [
+    ('*/2 * * * *', 'main.cron.my_cron_job')
+]
 WSGI_APPLICATION = 'TLMS.wsgi.application'
 
 

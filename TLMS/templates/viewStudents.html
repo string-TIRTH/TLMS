@@ -10,6 +10,7 @@
         <thead>
             <tr class="text-center">
                 <th>Sr.No</th>
+                <th>Image</th>
                 <th>Name</th>
                 <th>ID</th>
                 <th>College ID</th>
@@ -17,13 +18,16 @@
                 <th>Mobile Number</th>
                 <th>Department</th>
                 <th>Semester</th>
-                <th>Image</th>
+                <th>Limit</th>
+                <th>Fine</th>
+                
             </tr>
         </thead>
         <tbody>
             {% for student in students %}
             <tr class="text-center">
                 <td>{{forloop.counter}}.</td>
+                <td><img src="{{student.image.url}}" alt="" width="50%" height="50%"></td>
                 <td>{{student.user.get_full_name}}</td>
                 <td>{{student.user.id}}</td>
                 <td>{{student.user.username}}</td>
@@ -31,7 +35,9 @@
                 <td>{{student.mobile}}</td>
                 <td>{{student.dept}}</td>
                 <td>{{student.sem}}</td>
-                <td><img src="{{student.image.url}}" alt="" width="50%" height="50%"></td>
+                <td>{{student.limit}}</td>
+                <td>{{student.fine}}</td>
+                
             </tr>
             {% endfor %}
         </tbody>

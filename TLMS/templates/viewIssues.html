@@ -33,7 +33,12 @@
                 <td>{{i.3}}</td>
                 <td>{{i.4}}</td>
                 <td>{{i.5}}</td>
-                <td>₹ {{i.6}}</td>
+                <td>{% if i.6 == 0%}
+                    <p class="text-success"> 0 </p></td>
+                    {%else%}
+                    <p class="text-danger"> ₹{{i.6}}/- </p>
+                    {%endif%}
+                </td>
                 <td>
                     {% if i.7 == 1%}
                     Not Returned(No Due)
