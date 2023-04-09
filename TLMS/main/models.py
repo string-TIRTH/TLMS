@@ -29,7 +29,7 @@ class Student(models.Model):
     fine = models.FloatField(default=0)
     
     def __str__(self):
-        return str(self.user) + " ["+str(self.id)+']'+" ["+str(self.dept)+']' + " ["+str(self.sem)+']' + " ["+str(self.admissionDate)+']'+ " ["+str(self.dob)+']'
+        return "```College ID : ["+str(self.user) +"]``````DEPT : ["+str(self.dept)+']```' + "```SEM : ["+str(self.sem)+']```' +"```Limit : ["+str(self.limit)+"]```"
 class Librarian(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     address = models.TextField(max_length=100)

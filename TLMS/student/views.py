@@ -24,11 +24,12 @@ def verifyEmail(request):
             std = Student.objects.get(id = otp.user.id)
             std.isActive=True
             std.save()
-            alert = 1
+            otp.delete()
+            alert = 3
         else:
             alert = 3
             return render(request,'enterOtp.html',{'alert':alert},{'email':email})    
-        return redirect('/student/index')
+        return redirect('/student/index',{'alert':alert})
     return render(request,'enterOtp.html')
 
 def send_email(request):
@@ -61,7 +62,7 @@ def studentRegister(request):
 
         user = User.objects.create_user(username = collegeID,email=email, password=password,first_name=fname, last_name=lname)
         print(user)
-        student = Student.objects.create(user=user, admissionDate = '2003-12-01', mobile = phone,sem = 1,dob = '2003-12-01',dept =dept,image = image)
+        student = Student.objects.create(user=user, admissionDate = date.today(), mobile = phone,sem = 1,dob = dob,dept =dept,image = image)
         user.save()
         student.save()
         otp = random.randrange(100000,999999)
@@ -198,7 +199,8 @@ def studentSearchBook(request):
         return render(request,"searchBook.html")
 @login_required(login_url = '/student/')
 def studentHistory(request):
-    issuedBooks = Issues.objects.filter(student = request.user.id)
+    print(request.user.id)
+    issuedBooks = Issues.objects.filter(student = request.user.student)
     details = []
     j =0
     for i in issuedBooks:
@@ -218,10 +220,11 @@ def studentHistory(request):
             i=i+1
             j=j+1
             details.append(t)
+        print(details)
     return render(request, "stdHistory.html", {'issuedBooks':issuedBooks, 'details':details})
 @login_required(login_url = '/student/')
 def studentDueBooks(request):
-    issuedBooks = Issues.objects.filter(student = request.user.id).exclude(status = 3)
+    issuedBooks = Issues.objects.filter(student = request.user.student).exclude(status = 3)
     details = []
     j =0
     for i in issuedBooks:
@@ -241,4 +244,4 @@ def studentDueBooks(request):
             i=i+1
             j=j+1
             details.append(t)
-    return render(request, "stdHistory.html", {'issuedBooks':issuedBooks, 'details':details})
+    return render(request, "dueBooks.html", {'issuedBooks':issuedBooks, 'details':details})

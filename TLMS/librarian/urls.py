@@ -10,6 +10,8 @@ urlpatterns = [
    path('returnReissueBook',views.returnReissueBook),
    path('reissueBook/<int:myid>/',views.reissueBook),
    path('returnBook/<int:myid>/',views.returnBook),
+   path('notifyStd/<int:myid>/',views.notifyEmail),
+   path('notifyAllStd',views.notifyAll),
    path('home',views.home),
    path('logout',views.Logout),
    path('changePass',views.changePass),

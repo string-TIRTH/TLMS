@@ -5,14 +5,13 @@
 {% endblock %}
 {% block body %}
 <div class="container mt-4">
-    <h1 class="text-center"><u>Students List</u></h1>
+    <h1 class="text-center" style=" background-color : #ECF2FF"> Students</h1>
     <table class="table table-hover" id="example">
         <thead>
             <tr class="text-center">
                 <th>Sr.No</th>
                 <th>Image</th>
                 <th>Name</th>
-                <th>ID</th>
                 <th>College ID</th>
                 <th>Email</th>
                 <th>Mobile Number</th>
@@ -29,15 +28,18 @@
                 <td>{{forloop.counter}}.</td>
                 <td><img src="{{student.image.url}}" alt="" width="50%" height="50%"></td>
                 <td>{{student.user.get_full_name}}</td>
-                <td>{{student.user.id}}</td>
                 <td>{{student.user.username}}</td>
                 <td>{{student.user.email}}</td>
                 <td>{{student.mobile}}</td>
                 <td>{{student.dept}}</td>
                 <td>{{student.sem}}</td>
                 <td>{{student.limit}}</td>
-                <td>{{student.fine}}</td>
-                
+                <td>{% if student.fine == 0%}
+                    <p class="text-success"> ₹0/- (NO FINE) </p></td>
+                    {%else%}
+                    <p class="text-danger"> ₹{{student.fine}}/- </p>
+                    {%endif%}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

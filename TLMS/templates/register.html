@@ -40,10 +40,17 @@
     <div class="row mt-4">
         <div class="form-group col-md-6">
             <label><i style="font-weight: bold;">Department Name</i></label>
-            <input type="text" class="form-control mt-2" name="dept" placeholder="Enter Branch Name" required>
+            
+            <select id="dept" class="form-control mt-2" name="dept" placeholder="Enter Branch Name" required>
+            <option value="">--Select Department</option>
+            <option value="CE">CE</option>
+            <option value="IT">IT</option>
+            <option value="BCA">BCA</option>
+            <option value="MCA">MCA</option>
+            <option value="ME">ME</option>
+            <option value="BBA">BBA</option>
+            </select>
         </div>
-    </div>
-    <div class="row mt-4">
         <div class="form-group col-md-6">
             <label><i style="font-weight: bold;">Date of Birth</i></label>
             <input type="date" class="form-control mt-2" name="dob" required>
@@ -63,7 +70,10 @@
             <input type="password" class="form-control mt-2" name="confirm_password" placeholder="Confirm Password" required>
         </div>
     </div>
-    <button type="submit" class="btn btn-outline-primary mt-4">Register As Student</button>
+    <button type="submit" class="btn btn-primary mt-4">Register As Student</button>
+    <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;
 </div>
 </form>
 {% endblock %}

@@ -12,15 +12,18 @@
             <tr class="text-center">
                 <th>Sr.No</th>
                 <th>Issue ID</th>
-                <th>Student</th>
+                <th>Student Name</th>
                 <th>Student ID</th>
                 <th>Book Name</th>
                 <th>Issued Date</th>
                 <th>Due Date</th>
+                <th>Days</th>
                 <th>Fine</th>
                 <th>Status</th>
                 <th>Reissue</th>
                 <th>Return</th>
+                <th><a href="notifyAllStd" class="btn btn-primary" onclick="return confirm('Do you want to send email for reminder (all)?')">Notify ALL</a></th>
+               
             </tr>
         </thead>
         <tbody>
@@ -33,33 +36,43 @@
                 <td>{{i.3}}</td>
                 <td>{{i.4}}</td>
                 <td>{{i.5}}</td>
-                <td>{% if i.6 == 0%}
-                    <p class="text-success"> 0 </p></td>
+                <td>{% if i.8  == 1%} Days Left [{{i.6}}]  
+                    {% else%} 
+                        Over Due [{{i.6}}] 
+                    {% endif%}
+                </td>
+
+                <td>{% if i.7 == 0%}
+                    <p class="text-success"> ₹0/- </p></td>
                     {%else%}
-                    <p class="text-danger"> ₹{{i.6}}/- </p>
+                    <p class="text-danger"> ₹{{i.7}}/- </p>
                     {%endif%}
                 </td>
                 <td>
-                    {% if i.7 == 1%}
+                    {% if i.8 == 1%}
                     Not Returned(No Due)
-                    {% elif i.7 == 2%}
+                    {% elif i.8 == 2%}
                     Not Returned(Over Due)
-                    {% elif i.7 == 3%}
+                    {% elif i.8 == 3%}
                     Returned        
                     {% endif %}
                     
                     {% comment %} {{i.7}} {% endcomment %}
                 </td>
-                {% if i.7 == 3%}
+                {% if i.8 == 3%}
                     <td><button type="button" class="btn btn-secondary" onclick="return confirm(Book is already Returned)">ReIssue</button></td>
                     <td><button type="button" class="btn btn-secondary" onclick="return confirm('Book is already Returned')">ReIssue</button></td>
+                    <td><button type="button" class="btn btn-secondary" onclick="return confirm('Book is already Returned')">Notify</button></td>
                 {% else%}
                     <td><a href="reissueBook/{{i.0}}/" class="btn btn-success" onclick="return confirm('Are you sure you want to reissue this book?')">ReIssue</a></td>
                     <td><a href="returnBook/{{i.0}}/" class="btn btn-warning" onclick="return confirm('Are you sure you want to return this book?')">Return</a></td>
+                    <td><a href="notifyStd/{{i.0}}/" class="btn btn-primary" onclick="return confirm('Do you want to send email for reminder?')">Notify</a></td>
                 {% endif %}  
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
     </div>
 {% endblock %}
+

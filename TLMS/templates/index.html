@@ -29,11 +29,14 @@ The Library Management System
 {% block js %}
 <script>
     {% if alert  == 1%}
-    alert("Verify your account")
-    document.location = "/student/emailVerify"
+        alert("Verify your account")
+        document.location = "/student/emailVerify"
     {% elif alert == 2%}
-    alert("Your Not Student")
-    document.location = "/student/index"
+        alert("Your Not Student")
+        document.location = "/student/index"
+    {% elif alert == 3%}
+        alert("Account Verified Successfully...!")
+        document.location = "/student/index"
     {% endif %}
 </script>
 {% endblock %}

@@ -6,8 +6,10 @@ from django.contrib.auth import authenticate, login, logout
 from main.models import Student,Issues,User
 from . import forms 
 
-
+from django.core.mail import send_mail
+from django.conf import settings
 from datetime import date
+from datetime import datetime
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 # form django.contri
@@ -26,9 +28,10 @@ def libLogin(request):
             if request.user.is_staff:
                 return redirect('/librarian/viewIssues')
             else:
-                return HttpResponse("You are not a Librarian!!")
+                alert =1 
+                return render(request,"libLogin.html",{'alert':alert})
         else:
-            alert = True
+            alert = 2
             return render(request, "libLogin.html", {'alert':alert})
     return render(request,'libLogin.html')
 @login_required(login_url = '/librarian/')
@@ -82,27 +85,36 @@ def viewIssues(request):
     details = []
     j =0
     for i in issuedBooks:
-        days = (date.today()-i.issueDate)
-        d=days.days
+        dt1 = str(i.dueDate)
+        dt2 = str(date.today())
+        d1 = datetime.strptime(dt1,'%Y-%m-%d')
+        d2 = datetime.strptime(dt2,'%Y-%m-%d')
+        delta = d1 - d2
+        delta.days
         fine=0
-        if d>14:
-            day=d-14
-            fine=day*5
+        if delta.days<0:
+            fine=abs(delta.days*10)
         books = list(Book.objects.filter(id=i.book_id,isActive =True))
         students = list(Student.objects.filter(id=i.student_id,isActive =True))
-        print(books)
-        print(students)
+        # print(books)
+        # print(students)
         i=0
+        print(fine)
         if(fine>0):
+            print("Due :"+str(j))
             issuedBooks[j].status = 2
+            issuedBooks[j].save()
+            
         for l in books:
-            t=(issuedBooks[j].id,students[i].user.get_full_name,students[i].user,books[i].bookName,issuedBooks[j].issueDate,issuedBooks[j].dueDate,fine,issuedBooks[j].status)
+           
+            # print(delta.days) 
+            t=(issuedBooks[j].id,students[i].user.get_full_name,students[i].user,books[i].bookName,issuedBooks[j].issueDate,issuedBooks[j].dueDate,abs(delta.days),fine,issuedBooks[j].status)
             students[i].fine = fine
             students[i].save()
             i=i+1
             j=j+1
             
-            print(t)
+            # print(t)
             details.append(t)
     return render(request, "viewIssues.html", {'issuedBooks':issuedBooks, 'details':details})
     
@@ -112,19 +124,22 @@ def returnReissueBook(request):
     details = []
     j =0
     for i in issuedBooks:
-        days = (date.today()-i.issueDate)
-        d=days.days
+        dt1 = str(i.dueDate)
+        dt2 = str(date.today())
+        d1 = datetime.strptime(dt1,'%Y-%m-%d')
+        d2 = datetime.strptime(dt2,'%Y-%m-%d')
+        delta = d1 - d2
+        delta.days
         fine=0
-        if d>14:
-            day=d-14
-            fine=day*5
+        if delta.days<0:
+            fine=delta.days*10
         books = list(Book.objects.filter(id=i.book_id,isActive =True))
         students = list(Student.objects.filter(id=i.student_id,isActive =True))
         print(books)
         print(students)
         i=0
         for l in books:
-            t=(issuedBooks[j].id,students[i].user.get_full_name,students[i].user,books[i].bookName,issuedBooks[j].issueDate,issuedBooks[j].dueDate,fine,issuedBooks[j].status)
+            t=(issuedBooks[j].id,students[i].user.get_full_name,students[i].user,books[i].bookName,issuedBooks[j].issueDate,issuedBooks[j].dueDate,abs(delta.days),fine,issuedBooks[j].status)
             i=i+1
             j=j+1
             details.append(t)
@@ -146,7 +161,8 @@ def viewStudents(request):
 @login_required(login_url = '/librarian/')    
 def reissueBook(request,myid):
     issue = Issues.objects.get(id=myid)
-    issue.dueDate=issue.dueDate+dt.timedelta(days = 15)
+    issue.dueDate=datetime.today()+dt.timedelta(days = 15)
+    issue.issueDate=datetime.today()
     issue.save()
     alert = 1
     return redirect('/librarian/returnReissueBook',{'alert':alert})
@@ -202,3 +218,33 @@ def profile(request):
 def Logout(request):
     logout(request)
     return redirect ("/librarian/")
+
+def notifyEmail(request,myid):
+    issue = Issues.objects.get(id=myid)
+    user = User.objects.get(id = issue.student.user_id)
+    # print(user.email)
+    
+    print(issue.dueDate)    
+    str()
+    msg ="Hello "+str(user.first_name)+" "+str(user.last_name)+"\n Please Return Book ["+str(issue.book.bookName)+"] on or before "+str(issue.dueDate)+" to avoid penalties you can reissue it if you need it please visit library \n if you miss the due date then you have to pay 10₹/- as penalty per day... \n Have a nice day"
+    subject= "Reminder From Library"
+    
+    # print(msg)
+    sendEmail(user.email,subject,msg)
+    alert = 3
+    
+    return redirect('/librarian/viewIssues',{'alert':alert})
+def notifyAll(request):
+    issues = Issues.objects.exclude(status = 3)
+    
+    for i in issues:
+        user = User.objects.get(id = i.student.user_id)
+        msg ="Hello "+str(user.first_name)+" "+str(user.last_name)+"\n Please Return Book ["+str(i.book.bookName)+"] on or before "+str(i.dueDate)+" to avoid penalties you can reissue it if you need it please visit library \n if you miss the due date then you have to pay 10₹/- as penalty per day... \n Have a nice day"
+        subject= "Reminder From Library" 
+        sendEmail(user.email,subject,msg)
+           
+    return redirect('/librarian/viewIssues')
+def sendEmail(email,subject,message):
+    
+    send_mail(subject, message,'librarymanagemnet.one@gmail', [email])
+    return 

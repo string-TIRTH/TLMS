@@ -29,9 +29,12 @@
 {% endblock %}
 {% block js %}
 <script>
-    {% if alert %}
-    alert("Invalid Username or Password.")
-    document.location = "/librarian"
+    {% if alert  == 1%}
+        alert("Your Not Librarian")
+        document.location = "/librarian"
+    {% elif alert == 2%}
+        alert("Invalid Username Or Password")
+        document.location = "/librarian"
     {% endif %}
 </script>
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends 'stdNavBar.html' %}
 {% load static %}
-{% block title %} All Students List {% endblock %}
+{% block title %} Library Management System {% endblock %}
 {% block css %}
 {% endblock %}
 {% block body %}
 <div class="container mt-4">
-    <h1 class="text-center"><u>Due Books</u></h1>
+    <h1 class="text-center" style=" background-color : #ECF2FF">Due Books</h1>
     <table class="table table-hover" id="example">
         <thead>
             <tr class="text-center">
@@ -26,7 +26,13 @@
                 <td>{{i.1}}</td>
                 <td>{{i.2}}</td>
                 <td>{{i.3}}</td>
-                <td>₹ {{i.4}}/-</td>
+                
+                <td>{% if i.4 == 0%}
+                    <p class="text-success"> 0 (NO FINE) </p></td>
+                    {%else%}
+                    <p class="text-danger"> ₹{{i.4}}/- </p>
+                    {%endif%}
+                </td>
                 <td>
                     {% if i.5 == 1%}
                     Not Returned(No Due)
